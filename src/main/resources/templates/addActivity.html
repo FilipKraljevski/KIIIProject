@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Activity</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+<h1>Create</h1>
+
+<h4>Activity</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form action="admin/activity/create" method="post">
+            <div class="form-group">
+                <label class="control-label">Date for Activity</label>
+                <input type="date" class="form-control" name="date"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Time Spent for Activity</label>
+                <input type="number" class="form-control" name="timeSpent"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Description</label>
+                <textarea class="form-control" name="description"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Which user did the activity</label>
+                <select class="form-select" name="user">
+                    <option th:each="user : ${users}" th:value="${user.getId()}" th:text="${user.getFirstName() + ' ' +
+                        user.getLastName()}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="/admin/activity">Back to Reports</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Activities</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+<div class="container">
+    <form class="form-control" action="/admin/activity" method="get">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="dateFrom" class="form-label">Search by Date From</label>
+                    <input class="form-control" type="date" name="from" id="dateFrom"/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="dateTo" class="form-label">Search by Date To</label>
+                    <input class="form-control" type="date" name="to" id="dateTo"/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-label" for="user">Search by User</label>
+                    <select class="form-select" id="user">
+                        <option value="">--</option>
+                        <option th:each="user : ${users}" th:value="${user.getId()}" th:text="${user.getFirstName() + ' ' +
+                        user.getLastName()}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <div class="row mt-2">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Time Spent</th>
+                <th>User</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="activity : ${page.getContent()}">
+                <td th:text="${activity.getDateTime()}"></td>
+                <td th:text="${activity.getTimeSpent()}"></td>
+                <td th:text="${activity.getDescription()}"></td>
+                <td th:text="${activity.getUserActivity().getFirstName() + ' ' + activity.getUserActivity().getLastName()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col mt-5">
+            <a class="btn btn-success" href="/admin/activity/Create">Insert New Activity</a>
+        </div>
+        <div class="col mt-5">
+            <a class="btn btn-success" href="/admin/userActivity/Create">Insert New User</a>
+        </div>
+    </div>
+
+    <div th:include="fragments/paging :: pageSection(${page})"></div>
+</div>
+</body>
+</html>
