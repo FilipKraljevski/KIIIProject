@@ -9,8 +9,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
 <div class="container">
-    <form class="form-control" action="/admin/activity" method="get">
-        <div class="row">
+    <form class="form-control" action="/admin/activity/all" method="get">
+        <div class="row mt-2">
             <div class="col">
                 <div class="form-group">
                     <label for="dateFrom" class="form-label">Search by Date From</label>
@@ -26,8 +26,8 @@
             <div class="col">
                 <div class="form-group">
                     <label class="form-label" for="user">Search by User</label>
-                    <select class="form-select" id="user">
-                        <option value="">--</option>
+                    <select class="form-select" id="user" name="user">
+                        <option value="-1">--</option>
                         <option th:each="user : ${users}" th:value="${user.getId()}" th:text="${user.getFirstName() + ' ' +
                         user.getLastName()}"></option>
                     </select>
@@ -50,8 +50,8 @@
             <tbody>
             <tr th:each="activity : ${page.getContent()}">
                 <td th:text="${activity.getDateTime()}"></td>
-                <td th:text="${activity.getTimeSpent()}"></td>
                 <td th:text="${activity.getDescription()}"></td>
+                <td th:text="${activity.getTimeSpent()}"></td>
                 <td th:text="${activity.getUserActivity().getFirstName() + ' ' + activity.getUserActivity().getLastName()}"></td>
             </tr>
             </tbody>
@@ -60,10 +60,10 @@
 
     <div class="row">
         <div class="col mt-5">
-            <a class="btn btn-success" href="/admin/activity/Create">Insert New Activity</a>
+            <a class="btn btn-success" href="/admin/activity/create">Insert New Activity</a>
         </div>
         <div class="col mt-5">
-            <a class="btn btn-success" href="/admin/userActivity/Create">Insert New User</a>
+            <a class="btn btn-success" href="/admin/userActivity/create">Insert New User</a>
         </div>
     </div>
 

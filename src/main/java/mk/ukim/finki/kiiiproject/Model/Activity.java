@@ -3,7 +3,7 @@ package mk.ukim.finki.kiiiproject.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -17,7 +17,7 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime dateTime;
+    private LocalDate dateTime;
 
     private Integer timeSpent;
 
@@ -26,7 +26,7 @@ public class Activity {
     @ManyToOne
     private UserActivity userActivity;
 
-    public Activity(LocalDateTime dateTime, Integer timeSpent, String description, UserActivity userActivity) {
+    public Activity(LocalDate dateTime, Integer timeSpent, String description, UserActivity userActivity) {
         this.dateTime = dateTime;
         this.timeSpent = timeSpent;
         this.description = description;

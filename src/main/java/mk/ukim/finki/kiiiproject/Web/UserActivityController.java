@@ -26,6 +26,6 @@ public class UserActivityController {
     public String createUserActivity(@RequestParam String firstName,
                                      @RequestParam String lastName){
         userActivityService.createUserActivity(firstName, lastName);
-        return "redirect:/admin/activity";
+        return "addUser";
     }
 }

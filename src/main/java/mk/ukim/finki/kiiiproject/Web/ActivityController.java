@@ -1,6 +1,5 @@
 package mk.ukim.finki.kiiiproject.Web;
 
-import jakarta.annotation.PostConstruct;
 import mk.ukim.finki.kiiiproject.Service.ActivityService;
 import mk.ukim.finki.kiiiproject.Service.UserActivityService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/admin/activity")
@@ -25,6 +24,7 @@ public class ActivityController {
         this.userActivityService = userActivityService;
     }
 
+    @GetMapping("/all")
     public String getActivities(@RequestParam(defaultValue = "") String from,
                                 @RequestParam(defaultValue = "") String to,
                                 @RequestParam(defaultValue = "-1") Long user,
@@ -43,11 +43,11 @@ public class ActivityController {
     }
 
     @PostMapping("/create")
-    public String createActivity(@RequestParam  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date,
+    public String createActivity(@RequestParam  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
                                  @RequestParam Integer timeSpent,
                                  @RequestParam String description,
                                  @RequestParam Long user){
         activityService.createActivity(date, timeSpent, description, user);
-        return "redirect:/admin/activity";
+        return "addActivity";
     }
 }

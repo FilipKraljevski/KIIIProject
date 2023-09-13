@@ -6,22 +6,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Repository
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
 
-    Page<Activity> findByDateTimeIsBetweenAndUserActivityId(LocalDateTime from, LocalDateTime to, Long userIdm, Pageable pageable);
+    Page<Activity> findByDateTimeIsBetweenAndUserActivityId(LocalDate from, LocalDate to, Long userIdm, Pageable pageable);
 
-    Page<Activity> findByDateTimeAfterAndUserActivityId(LocalDateTime from, Long userId, Pageable pageable);
+    Page<Activity> findByDateTimeAfterAndUserActivityId(LocalDate from, Long userId, Pageable pageable);
 
-    Page<Activity> findByDateTimeBeforeAndUserActivityId(LocalDateTime to, Long userId, Pageable pageable);
+    Page<Activity> findByDateTimeBeforeAndUserActivityId(LocalDate to, Long userId, Pageable pageable);
 
     Page<Activity> findByUserActivityId(Long userId, Pageable pageable);
 
-    Page<Activity> findByDateTimeIsBetween(LocalDateTime from, LocalDateTime to, Pageable pageable);
+    Page<Activity> findByDateTimeIsBetween(LocalDate from, LocalDate to, Pageable pageable);
 
-    Page<Activity> findByDateTimeAfter(LocalDateTime from, Pageable pageable);
+    Page<Activity> findByDateTimeAfter(LocalDate from, Pageable pageable);
 
-    Page<Activity> findByDateTimeBefore(LocalDateTime to, Pageable pageable);
+    Page<Activity> findByDateTimeBefore(LocalDate to, Pageable pageable);
 }

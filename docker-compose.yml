@@ -5,8 +5,8 @@ services:
     restart: always
     container_name: "database"
     environment:
-      - POSTGRES_USER=kiii
-      - POSTGRES_PASSWORD=k111
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=adm1n
       - POSTGRES_DB=activity
     ports:
       - "5432:5432"

@@ -14,35 +14,35 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form action="admin/activity/create" method="post">
+        <form action="/admin/activity/create" method="POST">
             <div class="form-group">
                 <label class="control-label">Date for Activity</label>
-                <input type="date" class="form-control" name="date"/>
+                <input type="date" class="form-control" name="date" required/>
             </div>
             <div class="form-group">
                 <label class="control-label">Time Spent for Activity</label>
-                <input type="number" class="form-control" name="timeSpent"/>
+                <input type="number" class="form-control" name="timeSpent" required/>
             </div>
             <div class="form-group">
                 <label class="control-label">Description</label>
-                <textarea class="form-control" name="description"></textarea>
+                <textarea class="form-control" name="description" required></textarea>
             </div>
             <div class="form-group">
                 <label class="control-label">Which user did the activity</label>
-                <select class="form-select" name="user">
+                <select class="form-select" name="user" required>
                     <option th:each="user : ${users}" th:value="${user.getId()}" th:text="${user.getFirstName() + ' ' +
                         user.getLastName()}"></option>
                 </select>
             </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" />
+            <div class="form-group mt-2">
+                <input type="submit" value="submit" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a href="/admin/activity">Back to Reports</a>
+    <a href="/admin/activity/all">Back to Reports</a>
 </div>
 </body>
 </html>
