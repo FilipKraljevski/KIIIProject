@@ -1,0 +1,11 @@
+mk\ukim\finki\kiiiproject\Model\UserActivity.class
+mk\ukim\finki\kiiiproject\Service\Imp\UserActivityServiceImp.class
+mk\ukim\finki\kiiiproject\Model\Activity.class
+mk\ukim\finki\kiiiproject\Repository\ActivityRepository.class
+mk\ukim\finki\kiiiproject\Service\Imp\ActivityServiceImp.class
+mk\ukim\finki\kiiiproject\Web\UserActivityController.class
+mk\ukim\finki\kiiiproject\Service\ActivityService.class
+mk\ukim\finki\kiiiproject\Web\ActivityController.class
+mk\ukim\finki\kiiiproject\KiiiProjectApplication.class
+mk\ukim\finki\kiiiproject\Service\UserActivityService.class
+mk\ukim\finki\kiiiproject\Repository\UserActivityRepository.class
