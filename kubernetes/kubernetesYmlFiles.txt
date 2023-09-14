@@ -1,0 +1,172 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+	name: kiii
+	labels:
+		env: kiii
+
+------------------------------------------------------------------------------
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: postgres-cm
+  namespace: kiii
+data:
+  DB_NAME: activity
+  DB_USERNAME: admin
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+data:
+  DB_PASSWORD: YWRtMW4=
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: kiii
+  labels:
+    app: postgres
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Gi
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-ss
+  namespace: kiii
+spec:
+  selector:
+    matchLabels:
+      app: postgres
+  serviceName: postgres-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: postgres
+        namespace: kiii
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:latest
+          envFrom:
+            - configMapRef:
+                name: postgres-cm
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_PASSWORD
+          ports:
+            - containerPort: 5432
+              name: postgres-port
+          volumeMounts:
+            - name: postgres-volume
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: postgres-volume
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: kiii
+spec:
+ports:
+  - port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: postgres
+-------------------------------------------------------------------------------------------------------
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: spring-cm
+  namespace: kiii
+data:
+  DB_URL: jdbc:postgresql://postgres-service:5432/activity
+  DB_USERNAME: admin
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: spring-secret
+  namespace: kiii
+data:
+  DB_PASSWORD: YWRtMW4=
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-deployment
+  namespace: kiii
+spec:
+  selector:
+    matchLabels:
+      app: spring
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: spring
+        namespace: kiii
+    spec:
+      containers:
+        - name: spring
+          image: filipkraljevski/kiiiproject-app:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: spring-cm
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: spring-secret
+                  key: DB_PASSWORD
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-service
+  namespace: kiii
+spec:
+ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: spring
+---------------------------------------------------------------------------------------------------------
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: spring-ingress
+  namespace: kiii
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  spec:
+    rules:
+      - host: 203141.finki.mk
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: spring-service
+                  port:
+                    number: 8080
