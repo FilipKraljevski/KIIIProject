@@ -1,6 +1,6 @@
 kind: Namespace
 apiVersion: v1
 metadata:
-	name: kiii
-	labels:
-		env: kiii
+  name: kiii
+  labels:
+    env: kiii
