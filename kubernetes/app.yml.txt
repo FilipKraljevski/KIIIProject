@@ -1,0 +1,48 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: spring-cm
+  namespace: kiii
+data:
+  DB_URL: jdbc:postgresql://postgres-service:5432/activity
+  DB_USERNAME: admin
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: spring-secret
+  namespace: kiii
+data:
+  DB_PASSWORD: YWRtMW4=
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-deployment
+  namespace: kiii
+spec:
+  selector:
+    matchLabels:
+      app: spring
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: spring
+        namespace: kiii
+    spec:
+      containers:
+        - name: spring
+          image: filipkraljevski/kiiiproject-app:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: spring-cm
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: spring-secret
+                  key: DB_PASSWORD
+          ports:
+            - containerPort: 8080
